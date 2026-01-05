@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeedLink WiFi Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0b1c2d, #102a43);
+      color: #fff;
+    }
+    .container {
+      max-width: 460px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1, h2, h3 { text-align: center; }
+    .logo { font-size: 28px; font-weight: bold; text-align: center; }
+    .subtitle { text-align: center; opacity: 0.85; margin-bottom: 15px; }
+    .flyer { text-align: center; margin-bottom: 15px; }
+    .flyer img { width: 100%; max-height: 280px; object-fit: contain; border-radius: 10px; }
+    .card {
+      background: #162c44;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .btn {
+      width: 100%; padding: 14px; margin-top: 12px;
+      border: none; border-radius: 8px; font-size: 16px;
+      cursor: pointer; background: #2e3f55; color: #fff;
+    }
+    .btn.primary { background: #00c853; font-weight: bold; }
+    .btn.secondary { background: #0277bd; }
+    input, select { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; }
+    .code-box { background: #000; padding: 14px; text-align: center; font-size: 22px; letter-spacing: 4px; border-radius: 8px; }
+    .qr img { width: 170px; height: 170px; }
+    .stats { display: flex; justify-content: space-between; margin-top: 12px; font-size: 14px; }
+    .hidden { display: none; }
+    footer { text-align: center; font-size: 12px; opacity: 0.7; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LANDING PAGE -->
+  <div id="home" class="card">
+    <div class="logo">🛜 SPEEDLINK WiFi</div>
+    <div class="subtitle">Superfast & Reliable Internet</div>
+
+    
+
+    <p style="text-align:center;font-size:14px;">📞 Contact <strong>020 910 7883</strong> for any challenges</p>
+
+    <button class="btn secondary" onclick="showSection('login')">🔑 Enter Access Code</button>
+    <button class="btn primary" onclick="showSection('subscribe')">💳 Pay for a Subscription</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login" class="card hidden">
+    <h2>Enter Access Code</h2>
+    <input type="text" placeholder="Enter access code" />
+    <button class="btn primary">Connect</button>
+    <button class="btn" onclick="showSection('home')">⬅ Back</button>
+  </div>
+
+  <!-- SUBSCRIBE -->
+  <div id="subscribe" class="card hidden">
+    <h2>Select a Package</h2>
+
+    <select id="plan" required>
+      <option value="">-- Choose Package --</option>
+      <optgroup label="Non-Expiry Data">
+        <option value="25">5GB – GHS 25</option>
+        <option value="40">10GB – GHS 40</option>
+        <option value="60">15GB – GHS 60</option>
+        <option value="70">20GB – GHS 70</option>
+        <option value="85">25GB – GHS 85</option>
+        <option value="120">30GB – GHS 120</option>
+        <option value="150">50GB – GHS 150</option>
+        <option value="200">100GB – GHS 200</option>
+      </optgroup>
+      <optgroup label="Limited-Time (150GB up to 20Mb/s)">
+        <option value="30">48 Hours – GHS 30</option>
+        <option value="55">7 Days – GHS 55</option>
+        <option value="80">15 Days – GHS 80</option>
+        <option value="150">30 Days – GHS 150</option>
+      </optgroup>
+    </select>
+
+    <button class="btn primary" onclick="proceedPayment()">Proceed to Payment</button>
+    <button class="btn" onclick="showSection('home')">⬅ Back</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="card hidden">
+    <h2>✅ Connected</h2>
+    <p style="text-align:center">This device is now online</p>
+
+    <h3>Your Access Code</h3>
+    <div class="code-box">SPL-XXXX</div>
+
+    <div class="qr" style="text-align:center;margin-top:10px;">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://speedlinkwifi.com">
+    </div>
+
+    <div class="stats">
+      <span>Devices: 1 / 2</span>
+      <span>Expires: Active</span>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h3>📊 Usage</h3>
+      <p>Data Remaining: <strong>--</strong></p>
+      <p>Time Remaining: <strong>--</strong></p>
+    </div>
+
+    <button class="btn" onclick="showSection('home')">Finish</button>
+  </div>
+
+  <footer>© SpeedLink WiFi</footer>
+
+</div>
+
+<script>
+  function showSection(id) {
+    ['home','login','subscribe','dashboard'].forEach(s => document.getElementById(s).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function proceedPayment() {
+    const select = document.getElementById('plan');
+    const value = select.value;
+    if (!value) {
+      alert('Please select a data bundle');
+      return;
+    }
+    // Redirect to Moolre checkout (example)
+    window.location.href = `https://pay.moolre.com/checkout?amount=${value}&metadata[devices]=2`;
+  }
+</script>
+
+</body>
+</html>
